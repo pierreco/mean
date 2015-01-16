@@ -1,0 +1,14 @@
+<section data-ng-controller="VideosController" data-ng-init="findOne()">
+  <span>{{video.created | date:'medium'}}</span> /
+  <span>{{video.user.name}}</span>
+  <h2>{{video.title}}</h2>
+  <div data-ng-if="hasAuthorization(video)">
+    <a class="btn" href="/#!/videos/{{video._id}}/edit">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn" data-ng-click="remove(video);">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <div>{{video.content}}</div>
+</section>

@@ -1,6 +1,7 @@
 {
   "name": "mean",
   "dependencies": {
+      "ng-tags-input" : "latest",
     "jquery": "1.x",
     "angular": "1.3.2",
     "angular-resource": "1.3.2",
