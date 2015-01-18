@@ -6,6 +6,7 @@
                 <p>https://www.youtube.com/watch?v=1QwpXt0vHkI</p>
 
                 <p>https://www.youtube.com/watch?v=FmI_Lr4pF4Y</p>
+                <p>http://vimeo.com/17517736</p>
             </div>
             <div class="col-md-6">
                 <div class="col-md-offset-3 col-md-9">
@@ -17,19 +18,21 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" >
             <div class="col-md-12">
+                <input name="platform" type="hidden"  data-ng-model="platform" id="platform">
+                <input name="duration" type="hidden"  data-ng-model="duration" id="duration">
+                <input name="thumbnail" type="hidden"  data-ng-model="thumbnail" id="thumbnail">
                 <div class="form-group" ng-class="{ 'has-error' : submitted && videoForm.url.$invalid }">
                     <input name="url" type="url" class="form-control" data-ng-model="url" id="url"
                            placeholder="url" ng-change="change()" required>
-
                     <div ng-show="submitted && videoForm.url.$invalid" class="help-block">
                         <p ng-show="videoForm.url.$error.required">url is required</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" ng-show="statusUrl" ng-animate="'box'">
             <div class="col-md-6">
                 <div class="form-group" ng-class="{ 'has-error' : submitted && videoForm.title.$invalid }">
                     <input name="title" type="text" class="form-control" data-ng-model="title" id="title"
@@ -52,30 +55,35 @@
                             <input name="youtube" type="text" class="form-control" data-ng-model="youtube" id="youtube"
                                    placeholder="youtube" >
                         </div>
+                        <div class="form-group">
+                            <input name="vimeo" type="text" class="form-control" data-ng-model="vimeo" id="vimeo"
+                                   placeholder="Vimeo" >
+                        </div>
+                        <div class="form-group">
+                            <input name="facebook" type="text" class="form-control" data-ng-model="facebook" id="facebook"
+                                   placeholder="Facebook" >
+                        </div>
 
-                        <div class="form-group" ng-class="{ 'has-error' : submitted && videoForm.twitter.$invalid }">
+                        <div class="form-group" >
                             <input name="twitter" type="text" class="form-control" data-ng-model="twitter" id="twitter"
-                                   placeholder="Twitter" required>
-                            <div ng-show="submitted && videoForm.twitter.$invalid" class="help-block">
-                                <p ng-show="videoForm.twitter.$error.required">twitter is required</p>
-                            </div>
+                                   placeholder="Twitter">
                         </div>
 
                     </div>
                     <div class="col-md-6">
+                        <label>Tags</label>
                         <div class="form-group" ng-class="{ 'has-error' : submitted && videoForm.tag.$invalid }">
                             <input name="tag" type="text" class="form-control" data-ng-model="tag" id="tag"
                                    placeholder="tag" required>
                             <div ng-show="submitted && videoForm.tag.$invalid" class="help-block">
-                                <p ng-show="videoForm.tag.$error.required">author is required</p>
+                                <p ng-show="videoForm.tag.$error.required">tag is required</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="col-md-6">
-                <img ng-src="{{createThumbnailVideo}}">
+                <img ng-src="{{thumbnail}}">
             </div>
         </div>
     </form>

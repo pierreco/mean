@@ -15,7 +15,9 @@
           </a>
         </span>
       </h2>
-      <div>{{video.content}}</div>
+        <img ng-src='{{video.thumbnail}}' width="200px">
+        <small>{{video.duration}}</small>
+      <!--<div>{{video.content}}</div>-->
     </li>
   </ul>
   <h1 data-ng-hide="!videos || videos.length">No videos yet. <br> Why don't you <a href="/#!/videos/create">Create One</a>?</h1>

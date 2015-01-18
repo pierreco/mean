@@ -1,10 +1,9 @@
 'use strict';
 
-angular.module('mean.videos').controller('VideosController', ['$scope', '$stateParams', '$location', 'Global', 'Videos', 'youtubeParserFactory',
-    function($scope, $stateParams, $location, Global, Videos, youtubeParserFactory) {
+angular.module('mean.videos').controller('VideosController', ['$scope', '$stateParams', '$location', 'Global', 'Videos', 'youtubeParserFactory','vimeoParserFactory',
+    function($scope, $stateParams, $location, Global, Videos, youtubeParserFactory, vimeoParserFactory) {
         $scope.global = Global;
-        $scope.dataVideos = '';
-
+        $scope.statusUrl = null;
         $scope.hasAuthorization = function( video) {
             if (!video || !video.user) return false;
             return $scope.global.isAdmin || video.user._id === $scope.global.user._id;
@@ -14,48 +13,81 @@ angular.module('mean.videos').controller('VideosController', ['$scope', '$stateP
             $scope.title = '' ;
             $scope.content= '';
             $scope.url = '';
-            $scope.createThumbnailVideo = 'http://localhost:3000/theme/assets/img/cactus.png';
+            $scope.thumbnail = 'http://localhost:3000/theme/assets/img/cactus.png';
             $scope.author = '';
             $scope.youtube = '';
             $scope.tag = '';
+            $scope.twitter = '';
+            $scope.facebook = '';
+            $scope.vimeo = '';
+
         };
 
         $scope.change = function(){
+            $scope.statusUrl = true;
             console.log($scope.url);
-            var regex = new RegExp(/(?:\?v=)([^&]+)(?:\&)*/);
 
-            var matches = regex.exec($scope.url);
+            if ($scope.url.indexOf('youtube.com/watch') !== -1) {
 
-            if(matches[1]){
-                console.log(matches[1]);
-                youtubeParserFactory.getInfoVideobyId(matches[1]).then(function(data){
-                  console.log(data);
-                    $scope.dataVideos = data;
-                    $scope.createThumbnailVideo = data.data.thumbnail.hqDefault;
-                    $scope.title = data.data.title ;
-                    $scope.content = data.data.description;
-                    $scope.youtube = data.data.uploader;
-                    $scope.tag = data.data.category;
-                }, function(msg){
-                    $scope.dataVideos = null;
+                var regex = new RegExp(/(?:\?v=)([^&]+)(?:\&)*/);
+
+                var matches = regex.exec($scope.url);
+
+                if ( matches && matches[1].length == 11 ){
+                    console.log(matches[1]);
+
+                    youtubeParserFactory.getInfoVideobyId(matches[1]).then(function(data){
+                        console.log(data);
+                        $scope.thumbnail = data.data.thumbnail.hqDefault;
+                        $scope.title = data.data.title ;
+                        $scope.content = data.data.description;
+                        $scope.youtube = data.data.uploader;
+                        $scope.tag = data.data.category;
+                        $scope.platform = 'youtube';
+                        $scope.duration = data.data.duration;
+                    }, function(msg) {
+                        console.log(msg);
+                    });
+                } else{
+                    console.log("Could not extract video ID.");
+                }
+            } else if ($scope.url.match(/vimeo.com\/(\d+)/)) {
+               // var regExp = /http:\/\/(www\.)?vimeo.com\/(\d+)($|\/)/;
+
+                var match = /vimeo.*\/(\d+)/i.exec( $scope.url );
+                console.log(match[1]);
+                vimeoParserFactory.getInfoVideobyId(match[1]).then(function(data){
+                    console.log(data[0]);
+                    $scope.title = data[0].title;
+                    $scope.thumbnail = data[0].thumbnail_large;
+                    $scope.content = data[0].description;
+                    $scope.tag = data[0].tags;
+                    $scope.vimeo = data[0].user_name;
+                    $scope.platform = 'vimeo';
+                    $scope.duration = data[0].duration;
+                },function(msg){
                     console.log(msg);
                 });
-            }else{
-                $scope.dataVideos = null;
+               console.log('vimeo');
             }
 
         };
 
         $scope.create = function(isValid) {
+            console.log('valis',isValid);
             if (isValid) {
                 var video = new Videos({
                     title: this.title,
                     content: this.content,
                     url: this.url,
-                    author: { twitter : this.twitter, youtube : this.youtube},
+                    author: { twitter : this.twitter, youtube : this.youtube, vimeo : this.vimeo, facebook : this.facebook},
+                    platform : this.platform,
+                    duration : this.duration,
+                    thumbnail : this.thumbnail
                 });
                 video.$save(function(response) {
                     $location.path('videos/' + response._id);
+                   // $location.path('waiting/');
                 });
 
                 this.title = '';
@@ -63,6 +95,9 @@ angular.module('mean.videos').controller('VideosController', ['$scope', '$stateP
                 this.url = '';
                 this.author = '';
                 this.twitter = '';
+                this.facebook = '';
+                this.vimeo = '';
+                this.thumbnail = '';
             } else {
                 $scope.submitted = true;
             }

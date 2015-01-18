@@ -32,25 +32,31 @@ var VideosSchema = new Schema({
     },
     author: {
         twitter: {
-            type: String,
-            default: 'pierre_co'
+            type: String
+
         },
         facebook: {
             type: String
 
         },
         youtube: {
-            type: String,
-            default: 'pierre_co'
+            type: String
+
         },
         vimeo: {
             type: String
-
         }
     },
     platform: {
-        type: String,
-        default: 'youtube'
+        type: String
+
+    },
+    duration: {
+        type : Number
+    },
+    thumbnail: {
+        type : String,
+        default: 'http://localhost:3000/theme/assets/img/cactus.png'
     },
     user: {
         type: Schema.ObjectId,

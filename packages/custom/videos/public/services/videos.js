@@ -31,5 +31,25 @@ angular.module('mean.videos').factory('Videos', ['$resource',
         };
 
     return factoryvideo;
-    });
+    })
+.factory('vimeoParserFactory', function ($http, $q) {
+    var factoryvideo = {
+        fVideodata : false,
+        getInfoVideobyId : function(videoId){
+            var deferred = $q.defer();
+            $http.get('http://vimeo.com/api/v2/video/'+ videoId +'.json')
+                .success(function(data){
+                    factoryvideo.fVideodata = data;
+                    deferred.resolve(factoryvideo.fVideodata);
+                })
+                .error(function(error){
+                    console.log(error);
+
+                });
+            return deferred.promise;
+        }
+    };
+
+    return factoryvideo;
+});
 

@@ -1,3 +1,23 @@
 .videos-example h1 {
   background-color: purple
 }
+
+.box { color: white; text-align: center; height: 100px; font-size: 86px; }
+.on  { background-color: green; }
+.off { background-color: red; }
+
+
+.box-show-setup, .box-hide-setup {
+    -webkit-transition:all linear 0.3s;
+    -moz-transition:all linear 0.3s;
+    -ms-transition:all linear 0.3s;
+    -o-transition:all linear 0.3s;
+    transition:all linear 0.3s;
+}
+
+.box-show-setup { opacity:0; height: 0; }
+.box-show-setup.box-show-start { opacity:1; height: 100px; }
+
+.box-hide-setup { opacity:1; height: 0; }
+.box-hide-setup.box-hide-start { opacity:0; height: 100px; }
+

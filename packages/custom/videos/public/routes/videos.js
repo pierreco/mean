@@ -25,6 +25,13 @@ angular.module('mean.videos').config(['$stateProvider',
 
         // states for my app
         $stateProvider
+            .state('waiting', {
+                url: '/waiting',
+                templateUrl: 'videos/views/waitingValidation.html',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            })
             .state('all videos', {
                 url: '/videos',
                 templateUrl: 'videos/views/list.html',
