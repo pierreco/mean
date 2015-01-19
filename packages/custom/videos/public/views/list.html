@@ -1,5 +1,12 @@
 <section data-ng-controller="VideosController" data-ng-init="find()">
-    <h1 mean-token="'title-list-videos'">List of videos</h1>
+    <div class="row">
+        <div  data-ng-repeat="video in ::videos">
+            <div class="col-md-4">
+                <img ng-src='{{video.thumbnail}}' height="200px"><br>
+                <a data-ng-href="#!/videos/{{video._id}}">{{video.title}}</a>
+            </div>
+        </div>
+    </div>
   <ul class="videos unstyled">
     <li data-ng-repeat="video in ::videos">
       <span>{{video.created | date:'medium'}}</span> /

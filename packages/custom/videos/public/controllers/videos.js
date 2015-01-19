@@ -9,6 +9,8 @@ angular.module('mean.videos').controller('VideosController', ['$scope', '$stateP
             return $scope.global.isAdmin || video.user._id === $scope.global.user._id;
         };
 
+
+
         $scope.createRazVideo = function(){
             $scope.title = '' ;
             $scope.content= '';
@@ -20,19 +22,12 @@ angular.module('mean.videos').controller('VideosController', ['$scope', '$stateP
             $scope.twitter = '';
             $scope.facebook = '';
             $scope.vimeo = '';
+            $scope.dailymotion = '';
 
         };
 
         $scope.change = function(){
-            $scope.title = '' ;
-            $scope.content= '';
-            $scope.thumbnail = 'http://localhost:3000/theme/assets/img/cactus.png';
-            $scope.author = '';
-            $scope.youtube = '';
-            $scope.tag = '';
-            $scope.twitter = '';
-            $scope.facebook = '';
-            $scope.vimeo = '';
+           // $scope.createRazVideo();
 
             $scope.statusUrl = true;
             console.log($scope.url);
@@ -131,7 +126,7 @@ angular.module('mean.videos').controller('VideosController', ['$scope', '$stateP
                    // $location.path('waiting/');
                 });
 
-                this.title = '';
+               /* this.title = '';
                 this.content = '';
                 this.url = '';
                 this.author = '';
@@ -140,6 +135,8 @@ angular.module('mean.videos').controller('VideosController', ['$scope', '$stateP
                 this.vimeo = '';
                 this.dailymotion = '';
                 this.thumbnail = '';
+                */
+                $scope.createRazVideo();
             } else {
                 $scope.submitted = true;
             }

@@ -1,8 +1,30 @@
 'use strict';
 
-angular.module('mean.system').controller('IndexController', ['$scope', 'Global',
-  function($scope, Global) {
+angular.module('mean.system').controller('IndexController', ['$scope', 'Global','$interval',
+  function($scope, Global, $interval) {
     $scope.global = Global;
+    $scope.sentencesCounter = 0;
+      $scope.sentencesActive = 'Que voulez vous voir aujourd\'hui?';
+
+      $scope.sentences = {
+          0: 'Que voulez vous learn aujourd\'hui?',
+          1 : 'Que voulez vous apprendre aujourd\'hui?',
+          2:  'Que voulez vous voir aujourd\'hui?'
+      };
+      $scope.sentencesExample = {
+          1 :  'Exemple: NodeJS',
+          2:  'Exemple: AngularJS'
+      };
+
+      $interval(function() {
+          $scope.sentencesActive = $scope.sentences[$scope.sentencesCounter];
+          $scope.sentencesCounter = $scope.sentencesCounter + 1;
+          if($scope.sentencesCounter >=3)
+              $scope.sentencesCounter = 0;
+      }, 5000);
+
+
+
     $scope.sites = {
       'makeapoint':{
         'name':'makeapoint',

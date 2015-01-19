@@ -37,7 +37,7 @@ var VideosSchema = new Schema({
         vimeo: {
             type: String
         },
-        dailimotion: {
+        dailymotion: {
             type: String
         },
         twitter: {
