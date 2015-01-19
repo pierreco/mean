@@ -31,19 +31,19 @@ var VideosSchema = new Schema({
         trim: true
     },
     author: {
-        twitter: {
-            type: String
-
-        },
-        facebook: {
-            type: String
-
-        },
         youtube: {
             type: String
-
         },
         vimeo: {
+            type: String
+        },
+        dailimotion: {
+            type: String
+        },
+        twitter: {
+            type: String
+        },
+        facebook: {
             type: String
         }
     },
@@ -53,6 +53,9 @@ var VideosSchema = new Schema({
     },
     duration: {
         type : Number
+    },
+    platformUpload: {
+        type: Date
     },
     thumbnail: {
         type : String,

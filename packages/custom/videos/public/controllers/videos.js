@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.videos').controller('VideosController', ['$scope', '$stateParams', '$location', 'Global', 'Videos', 'youtubeParserFactory','vimeoParserFactory',
-    function($scope, $stateParams, $location, Global, Videos, youtubeParserFactory, vimeoParserFactory) {
+angular.module('mean.videos').controller('VideosController', ['$scope', '$stateParams', '$location', 'Global', 'Videos', 'youtubeParserFactory','vimeoParserFactory', 'dailymotionParserFactory',
+    function($scope, $stateParams, $location, Global, Videos, youtubeParserFactory, vimeoParserFactory, dailymotionParserFactory) {
         $scope.global = Global;
         $scope.statusUrl = null;
         $scope.hasAuthorization = function( video) {
@@ -24,8 +24,20 @@ angular.module('mean.videos').controller('VideosController', ['$scope', '$stateP
         };
 
         $scope.change = function(){
+            $scope.title = '' ;
+            $scope.content= '';
+            $scope.thumbnail = 'http://localhost:3000/theme/assets/img/cactus.png';
+            $scope.author = '';
+            $scope.youtube = '';
+            $scope.tag = '';
+            $scope.twitter = '';
+            $scope.facebook = '';
+            $scope.vimeo = '';
+
             $scope.statusUrl = true;
             console.log($scope.url);
+            if(!$scope.url)
+            return;
 
             if ($scope.url.indexOf('youtube.com/watch') !== -1) {
 
@@ -33,7 +45,7 @@ angular.module('mean.videos').controller('VideosController', ['$scope', '$stateP
 
                 var matches = regex.exec($scope.url);
 
-                if ( matches && matches[1].length == 11 ){
+                if ( matches && matches[1].length === 11 ){
                     console.log(matches[1]);
 
                     youtubeParserFactory.getInfoVideobyId(matches[1]).then(function(data){
@@ -45,11 +57,12 @@ angular.module('mean.videos').controller('VideosController', ['$scope', '$stateP
                         $scope.tag = data.data.category;
                         $scope.platform = 'youtube';
                         $scope.duration = data.data.duration;
+                        $scope.platformUpload = data.data.uploaded;
                     }, function(msg) {
                         console.log(msg);
                     });
                 } else{
-                    console.log("Could not extract video ID.");
+                    console.log('Could not extract video ID.');
                 }
             } else if ($scope.url.match(/vimeo.com\/(\d+)/)) {
                // var regExp = /http:\/\/(www\.)?vimeo.com\/(\d+)($|\/)/;
@@ -65,12 +78,39 @@ angular.module('mean.videos').controller('VideosController', ['$scope', '$stateP
                     $scope.vimeo = data[0].user_name;
                     $scope.platform = 'vimeo';
                     $scope.duration = data[0].duration;
+                    $scope.platformUpload = data[0].upload_date;
                 },function(msg){
                     console.log(msg);
                 });
-               console.log('vimeo');
-            }
+            } else if($scope.url.match(/^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/)){
+                var m = $scope.url.match(/^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/);
+                var videoID = '';
+                if (m !== null) {
+                    if(m[4] !== undefined) {
+                        videoID = m[4];
+                    }
+                    videoID = m[2];
+                    dailymotionParserFactory.getInfoVideobyId(videoID).then(function(data){
+                        console.log(data);
+                        $scope.title = data.title;
+                        $scope.thumbnail = data.thumbnail_360_url;
+                        $scope.content = data.description;
+                        $scope.tag = data.tags;
+                       // $scope.vimeo = data.user_name;
+                        $scope.platform = 'dailymotion';
+                        $scope.duration = data.duration;
+                        $scope.platformUpload = data.updated_time;
+                    },function(msg){
+                        console.log(msg);
+                    });
 
+
+                }
+
+            }
+            else{
+                console.log('platform not supported');
+            }
         };
 
         $scope.create = function(isValid) {
@@ -80,10 +120,11 @@ angular.module('mean.videos').controller('VideosController', ['$scope', '$stateP
                     title: this.title,
                     content: this.content,
                     url: this.url,
-                    author: { twitter : this.twitter, youtube : this.youtube, vimeo : this.vimeo, facebook : this.facebook},
+                    author: { youtube : this.youtube, vimeo : this.vimeo, dailymotion : this.dailymotion, twitter : this.twitter, facebook : this.facebook},
                     platform : this.platform,
                     duration : this.duration,
-                    thumbnail : this.thumbnail
+                    thumbnail : this.thumbnail,
+                    platformUpload: this.platformUpload
                 });
                 video.$save(function(response) {
                     $location.path('videos/' + response._id);
@@ -97,6 +138,7 @@ angular.module('mean.videos').controller('VideosController', ['$scope', '$stateP
                 this.twitter = '';
                 this.facebook = '';
                 this.vimeo = '';
+                this.dailymotion = '';
                 this.thumbnail = '';
             } else {
                 $scope.submitted = true;
