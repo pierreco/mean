@@ -12,6 +12,7 @@ var hasAuthorization = function(req, res, next) {
 
 module.exports = function(Videos, app, auth) {
 
+    app.get('/videos/search/:tag', videos.searchvideo);
     app.route('/videos')
         .get(videos.all)
         .post(auth.requiresLogin, videos.create);

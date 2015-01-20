@@ -30,6 +30,8 @@ Videos.register(function(app, auth, database) {
         'title': 'Create New Video',
         'link': 'create video'
     });
+
+
   
   Videos.aggregateAsset('css', 'videos.css');
 

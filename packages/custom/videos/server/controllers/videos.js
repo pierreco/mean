@@ -95,3 +95,15 @@ exports.all = function(req, res) {
 
     });
 };
+
+exports.searchvideo = function(req, res) {
+    Video.find(req.query).sort('-created').populate('user', 'name username').exec(function(err, videos) {
+        if (err) {
+            res.render('error', {
+                status: 500
+            });
+        } else {
+            res.jsonp(videos);
+        }
+    });
+};

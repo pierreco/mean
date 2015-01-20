@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
+    elmongo = require('elmongo'),
     Schema = mongoose.Schema;
 
 
@@ -77,11 +78,7 @@ VideosSchema.path('title').validate(function (title) {
 VideosSchema.path('content').validate(function (content) {
     return !!content;
 }, 'Content cannot be blank');
-/*
-VideosSchema.path('url').validate(function (videoUrl) {
-    return !!videoUrl;
-}, 'Content cannot be blank');
-*/
+
 /**
  * Statics
  */
@@ -91,4 +88,18 @@ VideosSchema.statics.load = function (id, cb) {
     }).populate('user', 'name username').exec(cb);
 };
 
-mongoose.model('Video', VideosSchema);
+
+
+VideosSchema.plugin(elmongo);
+
+var Video = mongoose.model('Video', VideosSchema);
+
+Video.sync(function (err, numSynced) {
+    // all cats are now searchable in elasticsearch
+    console.log('number of cats synced:', numSynced);
+});
+
+Video.search({ query: 'Tutoriel' }, function (err, results) {
+    console.log('search results', results);
+});
+

@@ -9,6 +9,15 @@ angular.module('mean.videos').controller('VideosController', ['$scope', '$stateP
             return $scope.global.isAdmin || video.user._id === $scope.global.user._id;
         };
 
+        $scope.searchart = function() {
+            Videos.query({tag:'Tutoriel'}, function(videos){
+                //$scope.articles = articles;
+                console.log(videos);
+            });
+        };
+
+        $scope.searchart();
+
 
 
         $scope.createRazVideo = function(){

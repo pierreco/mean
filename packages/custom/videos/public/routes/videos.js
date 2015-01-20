@@ -53,6 +53,10 @@ angular.module('mean.videos').config(['$stateProvider',
                     loggedin: checkLoggedin
                 }
             })
+            .state('search', {
+                url : '/videos/search/:tag',
+                templateUrl: 'videos/view/search.html'
+            })
             .state('video by id', {
                 url: '/videos/:videoId',
                 templateUrl: 'videos/views/view.html',

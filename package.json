@@ -52,7 +52,7 @@
     "lodash": "2.4.1",
     "meanio": "^0.6.16",
     "method-override": "1.0.2",
-    "mongoose": "3.8.21",
+    "mongoose": "3.8.9",
     "morgan": "1.5.0",
     "ms": "0.6.2",
     "nodemailer": "1.2.2",
@@ -66,7 +66,8 @@
     "serve-favicon": "2.2.0",
     "swig": "1.4.2",
     "time-grunt": "1.0.0",
-    "view-helpers": "0.1.5"
+    "view-helpers": "0.1.5",
+      "elmongo" : "0.1.9"
   },
   "devDependencies": {
     "expect.js": "0.3.1",
