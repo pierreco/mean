@@ -50,7 +50,6 @@ var VideosSchema = new Schema({
     },
     platform: {
         type: String
-
     },
     duration: {
         type : Number

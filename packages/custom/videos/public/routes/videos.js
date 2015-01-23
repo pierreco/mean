@@ -55,7 +55,7 @@ angular.module('mean.videos').config(['$stateProvider',
             })
             .state('search', {
                 url : '/videos/search/:tag',
-                templateUrl: 'videos/view/search.html'
+                templateUrl: 'videos/views/search.html'
             })
             .state('video by id', {
                 url: '/videos/:videoId',

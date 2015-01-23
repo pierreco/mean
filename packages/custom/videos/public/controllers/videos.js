@@ -2,6 +2,7 @@
 
 angular.module('mean.videos').controller('VideosController', ['$scope', '$stateParams', '$location', 'Global', 'Videos', 'youtubeParserFactory','vimeoParserFactory', 'dailymotionParserFactory',
     function($scope, $stateParams, $location, Global, Videos, youtubeParserFactory, vimeoParserFactory, dailymotionParserFactory) {
+        $scope.$broadcast('newItemAdded');
         $scope.global = Global;
         $scope.statusUrl = null;
         $scope.hasAuthorization = function( video) {

@@ -22,7 +22,7 @@
                 <input name="platform" type="hidden"  data-ng-model="platform" id="platform">
                 <input name="duration" type="hidden"  data-ng-model="duration" id="duration">
                 <input name="thumbnail" type="hidden"  data-ng-model="thumbnail" id="thumbnail">
-                <input name="platformUpload" type="hidden"  data-ng-model="platformUpload" id="platformUpload">
+                <input name="platformUpload" type="hidden" focus-on="newItemAdded" data-ng-model="platformUpload" id="platformUpload">
                 <div class="form-group" ng-class="{ 'has-error' : submitted && videoForm.url.$invalid }">
                     <input name="url" type="url" class="form-control" data-ng-model="url" id="url"
                            placeholder="url" ng-change="change()" required>

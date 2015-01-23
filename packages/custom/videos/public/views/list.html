@@ -1,9 +1,17 @@
 <section data-ng-controller="VideosController" data-ng-init="find()">
     <div class="row">
         <div  data-ng-repeat="video in ::videos">
-            <div class="col-md-4">
-                <img ng-src='{{video.thumbnail}}' height="200px"><br>
-                <a data-ng-href="#!/videos/{{video._id}}">{{video.title}}</a>
+            <div class="col-md-3">
+                <figure class="effect-lily">
+                    <img ng-src='{{video.thumbnail}}' ><br>
+                    <figcaption>
+                        <div>
+                            <h2>Nice <span>Lily</span></h2>
+                            <p>Lily likes to play with crayons and pencils</p>
+                        </div>
+                        <a data-ng-href="#!/videos/{{video._id}}">{{video.title}}</a>
+                    </figcaption>
+                </figure>
             </div>
         </div>
     </div>
