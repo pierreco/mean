@@ -65,6 +65,12 @@ modules/views/
 /public/build/
 
 # --------------------
+<<<<<<< HEAD
 # README
 # --------------------
 README.md
+=======
+# vim Files
+# --------------------
+*.swp
+>>>>>>> upstream/master
